@@ -1,0 +1,101 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Coração Seguro - Ajuda</title>
+  <link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+  <main class="app-shell" id="pagina-ajuda">
+    <div class="app-conteudo">
+
+      <header>
+        <h1>Central de Ajuda</h1>
+        <hr class="divisor">
+      </header>
+
+      <section class="bloco-emergencia" id="bloco-botao-seguranca">
+        <h2>☎️ Botão de Atendimento</h2>
+        <h3>Fale com a central de atendimento.</h3>
+        <p class="texto-suave">
+          Toque abaixo para ligar imediatamente para nossa central para obter suporte.
+        </p>
+
+        <a
+          class="botao-perigo"
+          id="botao-ligar-filha"
+          href="https://wa.me/5500000000000"
+          target="_blank"
+          style="display:block;text-align:center;text-decoration:none;"
+        >
+          ☎️ Ligar para Central
+        </a>
+      </section>
+
+      <section class="cartao" id="bloco-denuncia" style="margin-top:14px;">
+        <h2>♢ Como se cuidar?</h2>
+        <p class="texto-suave">
+          Veja o passo a passo para cuidar de sua saúde e forma física.
+        </p>
+        <button class="botao-secundario" id="botao-guia-denuncia" type="button">
+          Guia de Auto-Cuidado
+        </button>
+      </section>
+
+      <section aria-labelledby="titulo-aprender">
+        <h2 id="titulo-aprender">Aprenda a se cuidar</h2>
+
+        <div class="lista-ajuda">
+          <a class="link-artigo" id="artigo-golpistas" href="#">
+            <span>
+              <strong>Exercícios para fazer em casa</strong><br>
+              <small class="texto-suave">Leitura de 5 min</small>
+            </span>
+            <span>›</span>
+          </a>
+
+          <a class="link-artigo" id="artigo-suspeita" href="#">
+            <span>
+              <strong>Chá detox para melhorar intestino</strong><br>
+              <small class="texto-suave">Vídeo de 2 min</small>
+            </span>
+            <span>›</span>
+          </a>
+        </div>
+      </section>
+    </div>
+
+    
+<nav class="navegacao-inferior" aria-label="Navegação principal">
+  <a class="link-navegacao " href="index.html" id="nav-inicio">
+    <span class="icone-nav">🏠</span>
+    <span>Início</span>
+  </a>
+  <a class="link-navegacao " href="analise.html" id="nav-analise">
+    <span class="icone-nav">🔍</span>
+    <span>Análise</span>
+  </a>
+  <a class="link-navegacao " href="verificar.html" id="nav-verificar">
+    <span class="icone-nav">✅</span>
+    <span>Verificar</span>
+  </a>
+  <a class="link-navegacao ativo" href="ajuda.html" id="nav-ajuda">
+    <span class="icone-nav">🆘</span>
+    <span>Ajuda</span>
+  </a>
+</nav>
+
+  </main>
+
+  <div class="modal-overlay" id="modal-ajuda" hidden>
+    <div class="modal-caixa" role="dialog" aria-modal="true" aria-labelledby="modal-titulo">
+      <button class="modal-fechar" id="modal-fechar" type="button" aria-label="Fechar">✕</button>
+      <h2 id="modal-titulo"></h2>
+      <div id="modal-corpo"></div>
+    </div>
+  </div>
+
+  <script src="js/script.js"></script>
+</body>
+</html>
