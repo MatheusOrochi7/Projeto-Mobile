@@ -1,20 +1,53 @@
 document.addEventListener("DOMContentLoaded", function () {
+  const foiRedirecionado =
+    typeof exigirLogin === "function" ? exigirLogin() : false;
+
+  if (foiRedirecionado) return;
+
   configurarSplash();
+  configurarSaudacao();
+  configurarLogout();
   configurarAnalise();
   configurarPerfil();
   configurarBotoesVoltar();
   configurarAjuda();
 });
 
+function configurarSaudacao() {
+  const saudacao = document.getElementById("saudacao-usuario");
+  if (!saudacao || typeof obterSessao !== "function") return;
+
+  const sessao = obterSessao();
+  if (sessao && sessao.nome) {
+    saudacao.textContent = "Olá, " + sessao.nome;
+  }
+}
+
+function configurarLogout() {
+  const botaoSair = document.getElementById("botao-sair");
+  if (!botaoSair || typeof encerrarSessao !== "function") return;
+
+  botaoSair.addEventListener("click", function (evento) {
+    evento.preventDefault();
+    encerrarSessao();
+  });
+}
+
 function configurarSplash() {
   const splash = document.getElementById("splash-apresentacao");
-  const botaoComecar = document.getElementById("botao-comecar-protecao");
+  const botaoComecar = document.getElementById("botao-ir-login");
 
-  if (!splash || !botaoComecar) return;
+  if (!splash) return;
 
-  botaoComecar.addEventListener("click", function () {
-    splash.classList.add("oculto");
-  });
+  // Se chegou até aqui, exigirLogin() já confirmou que há sessão ativa,
+  // então a splash é só uma tela de boas-vindas: sempre revela o
+  // conteúdo, nunca deve levar de volta para o login.
+  if (botaoComecar) {
+    botaoComecar.addEventListener("click", function (evento) {
+      evento.preventDefault();
+      splash.classList.add("oculto");
+    });
+  }
 }
 
 function configurarAnalise() {
@@ -101,7 +134,7 @@ function configurarAjuda() {
     if (evento.key === "Escape" && !modal.hidden) fecharModal();
   });
 
-  const botaoGuia = document.getElementById("botao-guia-denuncia");
+  const botaoGuia = document.getElementById("botao-guia-autocuidado");
   if (botaoGuia) {
     botaoGuia.addEventListener("click", function () {
       abrirModal(
@@ -117,7 +150,7 @@ function configurarAjuda() {
     });
   }
 
-  const artigoExercicios = document.getElementById("artigo-golpistas");
+  const artigoExercicios = document.getElementById("artigo-exercicios-casa");
   if (artigoExercicios) {
     artigoExercicios.addEventListener("click", function (evento) {
       evento.preventDefault();
@@ -134,7 +167,7 @@ function configurarAjuda() {
     });
   }
 
-  const artigoDetox = document.getElementById("artigo-suspeita");
+  const artigoDetox = document.getElementById("artigo-cha-detox");
   if (artigoDetox) {
     artigoDetox.addEventListener("click", function (evento) {
       evento.preventDefault();
@@ -151,7 +184,7 @@ function configurarAjuda() {
     });
   }
 
-  const botaoLigar = document.getElementById("botao-ligar-filha");
+  const botaoLigar = document.getElementById("botao-ligar-suporte");
   if (botaoLigar) {
     botaoLigar.addEventListener("click", function () {
       botaoLigar.classList.add("botao-ativo-clique");

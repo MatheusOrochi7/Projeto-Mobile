@@ -1,2 +1,2 @@
-# Projeto-Mobile
-Projeto mobile sobre pilates
+# PROJETO_MOBILE
+Projeto de app para saúde de idosos atualizado!

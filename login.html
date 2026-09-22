@@ -1,0 +1,257 @@
+<!DOCTYPE html>
+
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+    <meta name="theme-color" content="#667eea">
+    <title>Login</title>
+
+
+<style>
+    * {
+        margin: 0;
+        padding: 0;
+        box-sizing: border-box;
+        font-family: Arial, sans-serif;
+    }
+
+    body {
+        min-height: 100vh;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        background: #667eea;
+    }
+
+    .login-card {
+        width: 100%;
+        max-width: 400px;
+        background: #ffffff;
+        padding: 35px;
+        border-radius: 12px;
+        box-shadow: 0 5px 20px rgba(0, 0, 0, 0.1);
+    }
+
+    .login-card h2 {
+        text-align: center;
+        color: #333;
+        margin-bottom: 8px;
+    }
+
+    .login-card h3 {
+        text-align: center;
+        color: #777;
+        font-size: 14px;
+        font-weight: normal;
+        margin-bottom: 30px;
+    }
+
+    .mensagem-sucesso {
+        display: none;
+        margin-bottom: 20px;
+        padding: 12px;
+        border-radius: 6px;
+        background: #e8f8f0;
+        color: #218c5a;
+        border: 1px solid #b7e4cd;
+        font-size: 14px;
+        text-align: center;
+    }
+
+    .mensagem-erro {
+        display: none;
+        margin-bottom: 20px;
+        padding: 10px;
+        border-radius: 6px;
+        background: #fdecea;
+        color: #c0392b;
+        font-size: 14px;
+        text-align: center;
+    }
+
+    .input-group {
+        margin-bottom: 20px;
+    }
+
+    .input-group label {
+        display: block;
+        margin-bottom: 7px;
+        color: #333;
+        font-size: 14px;
+        font-weight: bold;
+    }
+
+    .input-group input {
+        width: 100%;
+        padding: 12px;
+        border: 1px solid #ccc;
+        border-radius: 6px;
+        font-size: 16px;
+        outline: none;
+        transition: 0.3s;
+    }
+
+    .input-group input:focus {
+        border-color: #4a90e2;
+        box-shadow: 0 0 0 2px rgba(74, 144, 226, 0.15);
+    }
+
+    .botao-login {
+        width: 100%;
+        padding: 12px;
+        border: none;
+        border-radius: 6px;
+        background: #4a90e2;
+        color: white;
+        font-size: 16px;
+        font-weight: bold;
+        cursor: pointer;
+        transition: 0.3s;
+    }
+
+    .botao-login:hover {
+        background: #357abd;
+    }
+
+    .card-rodape {
+        text-align: center;
+        margin-top: 25px;
+        color: #777;
+        font-size: 14px;
+    }
+
+    .card-rodape a {
+        color: #4a90e2;
+        text-decoration: none;
+        font-weight: bold;
+    }
+
+    .card-rodape a:hover {
+        text-decoration: underline;
+    }
+</style>
+
+
+</head>
+
+<body>
+    <div class="login-card">
+        <h2>Bem-vindo</h2>
+        <h3>Acesse sua conta para continuar seu projeto pilates</h3>
+
+
+    <div id="mensagemSucesso" class="mensagem-sucesso">
+        Cadastro concluído com sucesso!
+    </div>
+
+    <form id="formLogin">
+        <div class="input-group">
+            <label for="email">E-mail</label>
+            <input
+                type="email"
+                id="email"
+                placeholder="Insira seu email"
+                autocomplete="email"
+                inputmode="email"
+                required
+            >
+        </div>
+
+        <div class="input-group">
+            <label for="senha">Senha</label>
+            <input
+                type="password"
+                id="senha"
+                placeholder="Insira sua senha"
+                autocomplete="current-password"
+                required
+            >
+        </div>
+
+        <div id="mensagemErro" class="mensagem-erro"></div>
+
+        <button type="submit" class="botao-login">
+            Entrar
+        </button>
+    </form>
+
+    <div class="card-rodape">
+        <p>
+            Não tem uma conta?
+            <a href="cadastro.html">Cadastre-se</a>
+        </p>
+    </div>
+</div>
+
+<script src="js/auth.js"></script>
+<script>
+    const mensagemSucesso = document.getElementById("mensagemSucesso");
+    const formLogin = document.getElementById("formLogin");
+    const email = document.getElementById("email");
+    const senha = document.getElementById("senha");
+    const mensagemErro = document.getElementById("mensagemErro");
+
+    // Exibe a mensagem somente quando veio da página de cadastro
+    const parametros = new URLSearchParams(window.location.search);
+
+    if (parametros.get("cadastro") === "sucesso") {
+        mensagemSucesso.style.display = "block";
+
+        // Remove o parâmetro da URL depois de exibir a mensagem
+        window.history.replaceState(
+            {},
+            document.title,
+            window.location.pathname
+        );
+    }
+
+    formLogin.addEventListener("submit", async function(event) {
+        event.preventDefault();
+
+        mensagemErro.style.display = "none";
+        mensagemErro.textContent = "";
+
+        const emailValor = email.value.trim();
+        const senhaValor = senha.value;
+
+        const emailValido = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+
+        if (!emailValido.test(emailValor)) {
+            mensagemErro.textContent = "Digite um e-mail válido.";
+            mensagemErro.style.display = "block";
+            email.focus();
+            return;
+        }
+
+        if (senhaValor.length < 8) {
+            mensagemErro.textContent =
+                "A senha deve ter pelo menos 8 caracteres.";
+            mensagemErro.style.display = "block";
+            senha.focus();
+            return;
+        }
+
+        const botaoEnviar = formLogin.querySelector(".botao-login");
+        botaoEnviar.disabled = true;
+        botaoEnviar.textContent = "Entrando...";
+
+        const resultado = await autenticarUsuario(emailValor, senhaValor);
+
+        if (!resultado.ok) {
+            mensagemErro.textContent = resultado.mensagem;
+            mensagemErro.style.display = "block";
+            botaoEnviar.disabled = false;
+            botaoEnviar.textContent = "Entrar";
+            senha.focus();
+            return;
+        }
+
+        // Login válido: sessão já foi iniciada por autenticarUsuario()
+        window.location.href = "index.html";
+    });
+</script>
+
+
+</body>
+</html>

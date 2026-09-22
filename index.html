@@ -2,7 +2,8 @@
 <html lang="pt-BR">
 <head>
   <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+  <meta name="theme-color" content="#fbf7f1">
   <title>Pilates para idosos - Início</title>
   <link rel="stylesheet" href="css/style.css">
 </head>
@@ -29,8 +30,8 @@
          a mobilidade e a autonomia na terceira idade!
       </p>
 
-      <button class="botao-primario" id="botao-comecar-protecao" type="button">
-        ♢ Começar Cuidados
+      <button class="botao-primario" id="botao-ir-login" type="button">
+        ♢ Continuar
       </button>
 
       <p class="splash-rodape">
@@ -44,10 +45,13 @@
 
       <header class="boas-vindas" id="cabecalho-inicio">
         <div>
-          <p class="texto-suave">Olá, querido usuário(a)</p>
+          <p class="texto-suave" id="saudacao-usuario">Olá, querido usuário(a)</p>
           <h1>Seu aplicativo está ativo</h1>
         </div>
-        <span class="icone-circular" aria-hidden="true">♢</span>
+        <div style="display:flex;flex-direction:column;align-items:center;gap:6px;">
+          <span class="icone-circular" aria-hidden="true">♢</span>
+          <a href="#" class="texto-suave" id="botao-sair" style="font-size:.75rem;text-decoration:underline;">Sair</a>
+        </div>
       </header>
 
       <hr class="divisor">
@@ -82,12 +86,12 @@
         <h2 id="titulo-historias">Problemas comuns da terceira idade</h2>
 
         <div class="historias">
-          <article class="historia-card" id="historia-engenheiro">
+          <article class="historia-card" id="historia-dor-articulacoes">
             <h3>Dor nas articulações</h3>
             <p>Sente dor nas articulações, mesmo sem desempenhar esforço significativo.</p>
           </article>
 
-          <article class="historia-card" id="historia-militar">
+          <article class="historia-card" id="historia-falta-disposicao">
             <h3>Falta de disposição</h3>
             <p>Não sente vontade ou tem disposição para atividades do dia a dia.</p>
           </article>
@@ -117,6 +121,7 @@
 
   </main>
 
+  <script src="js/auth.js"></script>
   <script src="js/script.js"></script>
 </body>
 </html>

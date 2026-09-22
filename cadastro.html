@@ -1,0 +1,234 @@
+<!DOCTYPE html>
+
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+    <meta name="theme-color" content="#667eea">
+    <title>Tela de cadastro</title>
+
+<style>
+    * {
+        margin: 0;
+        padding: 0;
+        box-sizing: border-box;
+        font-family: Arial, sans-serif;
+    }
+
+    body {
+        min-height: 100vh;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        background: #667eea;
+    }
+
+    .login-card {
+        width: 100%;
+        max-width: 400px;
+        background: #ffffff;
+        padding: 35px;
+        border-radius: 12px;
+        box-shadow: 0 5px 20px rgba(0, 0, 0, 0.1);
+    }
+
+    .login-card h2 {
+        text-align: center;
+        color: #333;
+        margin-bottom: 8px;
+    }
+
+    .login-card h3 {
+        text-align: center;
+        color: #777;
+        font-size: 14px;
+        font-weight: normal;
+        margin-bottom: 30px;
+    }
+
+    .input-group {
+        margin-bottom: 20px;
+    }
+
+    .input-group label {
+        display: block;
+        margin-bottom: 7px;
+        color: #333;
+        font-size: 14px;
+        font-weight: bold;
+    }
+
+    .input-group input {
+        width: 100%;
+        padding: 12px;
+        border: 1px solid #ccc;
+        border-radius: 6px;
+        font-size: 16px;
+        outline: none;
+        transition: 0.3s;
+    }
+
+    .input-group input:focus {
+        border-color: #4a90e2;
+        box-shadow: 0 0 0 2px rgba(74, 144, 226, 0.15);
+    }
+
+    .input-group input.erro {
+        border-color: #e74c3c;
+    }
+
+    .mensagem-erro {
+        display: none;
+        margin-bottom: 20px;
+        padding: 10px;
+        border-radius: 6px;
+        background: #fdecea;
+        color: #c0392b;
+        font-size: 14px;
+        text-align: center;
+    }
+
+    .botao-login {
+        width: 100%;
+        padding: 12px;
+        border: none;
+        border-radius: 6px;
+        background: #4a90e2;
+        color: white;
+        font-size: 16px;
+        font-weight: bold;
+        cursor: pointer;
+        transition: 0.3s;
+    }
+
+    .botao-login:hover {
+        background: #357abd;
+    }
+</style>
+
+</head>
+
+<body>
+    <div class="login-card">
+        <h2>Faça seu cadastro</h2>
+        <h3>Crie sua conta para iniciar seu projeto</h3>
+
+    <form id="formCadastro">
+        <div class="input-group">
+            <label for="email">E-mail</label>
+            <input
+                type="email"
+                id="email"
+                placeholder="Insira seu email"
+                autocomplete="email"
+                inputmode="email"
+                required
+            >
+        </div>
+
+        <div class="input-group">
+            <label for="nome">Nome</label>
+            <input
+                type="text"
+                id="nome"
+                placeholder="Insira seu nome"
+                autocomplete="name"
+                required
+            >
+        </div>
+
+        <div class="input-group">
+            <label for="senha">Senha</label>
+            <input
+                type="password"
+                id="senha"
+                placeholder="Insira sua senha"
+                autocomplete="new-password"
+                minlength="8"
+                required
+            >
+        </div>
+
+        <div id="mensagemErro" class="mensagem-erro"></div>
+
+        <button type="submit" class="botao-login">
+            Cadastrar
+        </button>
+    </form>
+</div>
+
+<script src="js/auth.js"></script>
+<script>
+    const formCadastro = document.getElementById("formCadastro");
+    const email = document.getElementById("email");
+    const senha = document.getElementById("senha");
+    const nome = document.getElementById("nome");
+    const mensagemErro = document.getElementById("mensagemErro");
+
+    formCadastro.addEventListener("submit", async function(event) {
+        event.preventDefault();
+
+        mensagemErro.style.display = "none";
+        mensagemErro.textContent = "";
+
+        email.classList.remove("erro");
+        senha.classList.remove("erro");
+        nome.classList.remove("erro");
+
+        const emailValor = email.value.trim();
+        const senhaValor = senha.value;
+        const nomeValor = nome.value.trim();
+
+        // Validação do nome
+        if (nomeValor.length < 2) {
+            mostrarErro("Digite um nome válido.");
+            nome.classList.add("erro");
+            nome.focus();
+            return;
+        }
+
+        // Validação do e-mail
+        const emailValido = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+
+        if (!emailValido.test(emailValor)) {
+            mostrarErro("Digite um e-mail válido.");
+            email.classList.add("erro");
+            email.focus();
+            return;
+        }
+
+        // Validação da senha
+        if (senhaValor.length < 8) {
+            mostrarErro("A senha deve ter pelo menos 8 caracteres.");
+            senha.classList.add("erro");
+            senha.focus();
+            return;
+        }
+
+        const botaoEnviar = formCadastro.querySelector(".botao-login");
+        botaoEnviar.disabled = true;
+        botaoEnviar.textContent = "Cadastrando...";
+
+        const resultado = await cadastrarUsuario(nomeValor, emailValor, senhaValor);
+
+        if (!resultado.ok) {
+            mostrarErro(resultado.mensagem);
+            email.classList.add("erro");
+            email.focus();
+            botaoEnviar.disabled = false;
+            botaoEnviar.textContent = "Cadastrar";
+            return;
+        }
+
+        // Cadastro concluído e salvo no localStorage
+        window.location.href = "login.html?cadastro=sucesso";
+    });
+
+    function mostrarErro(mensagem) {
+        mensagemErro.textContent = mensagem;
+        mensagemErro.style.display = "block";
+    }
+</script>
+
+</body>
+</html>
